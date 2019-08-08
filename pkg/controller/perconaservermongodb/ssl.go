@@ -46,7 +46,9 @@ func (r *ReconcilePerconaServerMongoDB) createSSLByCertManager(cr *api.PerconaSe
 	for _, replset := range cr.Spec.Replsets {
 		certificateDNSNames = append(certificateDNSNames,
 			cr.Name+"-"+replset.Name,
+			cr.Name+"-"+replset.Name+"."+cr.Namespace+".svc.cluster.local",
 			"*."+cr.Name+"-"+replset.Name,
+			"*."+cr.Name+"-"+replset.Name+"."+cr.Namespace+".svc.cluster.local",
 		)
 	}
 	owner, err := OwnerRef(cr, r.scheme)
@@ -123,7 +125,9 @@ func (r *ReconcilePerconaServerMongoDB) createSSLManualy(cr *api.PerconaServerMo
 	for _, replset := range cr.Spec.Replsets {
 		certificateDNSNames = append(certificateDNSNames,
 			cr.Name+"-"+replset.Name,
+			cr.Name+"-"+replset.Name+"."+cr.Namespace+".svc.cluster.local",
 			"*."+cr.Name+"-"+replset.Name,
+			"*."+cr.Name+"-"+replset.Name+"."+cr.Namespace+".svc.cluster.local",
 		)
 	}
 	caCert, tlsCert, key, err := tls.Issue(certificateDNSNames)
